@@ -31,7 +31,7 @@ sourceOnce "$dir_of_tegonal_scripts/utility/log.sh"
 
 function cleanupOnPushToMain() {
 	sbt scalafmt scalafmtSbt
-	logSuccess "nothing to cleanup yet"
+	logSuccess "cleaned up scala and sbt sources"
 }
 
 ${__SOURCED__:+return}
