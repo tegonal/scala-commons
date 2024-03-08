@@ -6,7 +6,7 @@
 #  \__/\__/\_, /\___/_//_/\_,_/_/         It is licensed under Apache License 2.0
 #         /___/                           Please report bugs and contribute back your improvements
 #
-#                                         Version: v1.4.0-SNAPSHOT
+#                                         Version: v1.0.0
 ###################################
 set -euo pipefail
 shopt -s inherit_errexit
@@ -23,12 +23,19 @@ if ! [[ -v projectDir ]]; then
 	readonly projectDir
 fi
 
+if ! [[ -v dir_of_github_commons ]]; then
+	dir_of_github_commons="$projectDir/.gt/remotes/tegonal-gh-commons/lib/src"
+	readonly dir_of_github_commons
+fi
+
 if ! [[ -v dir_of_tegonal_scripts ]]; then
 	dir_of_tegonal_scripts="$scriptsDir/../lib/tegonal-scripts/src"
 	source "$dir_of_tegonal_scripts/setup.sh" "$dir_of_tegonal_scripts"
 fi
-sourceOnce "$dir_of_tegonal_scripts/releasing/release-files.sh"
-sourceOnce "$dir_of_tegonal_scripts/utility/checks.sh"
+sourceOnce "$dir_of_github_commons/gt/pull-hook-functions.sh"
+sourceOnce "$dir_of_tegonal_scripts/releasing/pre-release-checks-git.sh"
+sourceOnce "$dir_of_tegonal_scripts/releasing/release-tag-push-prepare-next.sh"
+sourceOnce "$dir_of_tegonal_scripts/releasing/update-version-common-steps.sh"
 
 function release() {
 	local projectsRootDirParamPatternLong additionalPatternParamPatternLong prepareOnlyParamPatternLong
@@ -38,9 +45,10 @@ function release() {
 	# similar as in prepare-next-dev-cycle.sh, you might need to update it there as well if you change something here
 	local -r additionalPattern="(SCALA_COMMONS_(?:LATEST_)?VERSION=['\"])[^'\"]+(['\"])"
 
-	local prepareOnly
+	local version prepareOnly
 	# shellcheck disable=SC2034   # is passed by name to parseArguments
 	local -ra params=(
+		version "$versionParamPattern" ''
 		prepareOnly "$prepareOnlyParamPattern" ''
 	)
 
@@ -58,6 +66,14 @@ function release() {
 		"$projectsRootDirParamPatternLong" "$projectDir" \
 		"$additionalPatternParamPatternLong" "$additionalPattern" \
 		"$@"
+
+	local -r githubUrl="https://github.com/tegonal/scala-commons"
+	replaceTagInPullRequestTemplate "$projectDir/.github/PULL_REQUEST_TEMPLATE.md" "$githubUrl" "$version" || die "could not fill the placeholders in PULL_REQUEST_TEMPLATE.md"
+
+	perl -0777 -i \
+		-pe "s@(ThisBuild / version := )\"[^\"]+\"@\${1}\"$version\"@g;" \
+		-pe "s@(libraryDependencies += \com.tegonal\ %% \scala-commons\ % )\"[^\"]+\"@\${1}\"$version\"@g;"
+		"$projectDir/build.sbt"
 
 	# run again since we made changes
 	beforePr || return $?
