@@ -69,16 +69,18 @@ fi
 sourceOnce "$dir_of_tegonal_scripts/utility/parse-args.sh"
 sourceOnce "$dir_of_tegonal_scripts/releasing/sneak-peek-banner.sh"
 sourceOnce "$dir_of_tegonal_scripts/releasing/toggle-sections.sh"
+sourceOnce "$dir_of_tegonal_scripts/releasing/update-version-issue-templates.sh"
 sourceOnce "$dir_of_tegonal_scripts/releasing/update-version-README.sh"
 sourceOnce "$dir_of_tegonal_scripts/releasing/update-version-scripts.sh"
 
 function updateVersionCommonSteps() {
+	local versionParamPatternLong additionalPatternParamPatternLong
 	source "$dir_of_tegonal_scripts/releasing/shared-patterns.source.sh" || die "could not source shared-patterns.source.sh"
 
 	local version projectsRootDir additionalPattern
 	# shellcheck disable=SC2034   # is passed by name to parseArguments
 	local -ra params=(
-		version '-v' "The version to release in the format vX.Y.Z(-RC...)"
+		version "$versionParamPattern" "$versionParamDocu"
 		projectsRootDir "$projectsRootDirParamPattern" "$projectsRootDirParamDocu"
 		additionalPattern "$additionalPatternParamPattern" "$additionalPatternParamDocu"
 	)
@@ -92,9 +94,27 @@ function updateVersionCommonSteps() {
 
 	sneakPeekBanner -c hide || return $?
 	toggleSections -c release || return $?
-	updateVersionReadme -v "$version" -p "$additionalPattern" || return $?
-	updateVersionScripts -v "$version" -p "$additionalPattern" || return $?
-	updateVersionScripts -v "$version" -p "$additionalPattern" -d "$projectsScriptsDir" || return $?
+
+	updateVersionReadme "$versionParamPatternLong" "$version" \
+		"$additionalPatternParamPatternLong" "$additionalPattern" || return $?
+
+	updateVersionScripts "$versionParamPatternLong" "$version" \
+		"$additionalPatternParamPatternLong" "$additionalPattern" || return $?
+	updateVersionScripts "$versionParamPatternLong" "$version" \
+		"$additionalPatternParamPatternLong" "$additionalPattern" \
+		-d "$projectsScriptsDir" || return $?
+
+	find "$projectsRootDir/.gt" -name "pull-hook.sh" -print0 |
+		while read -r -d $'\0' script; do
+			updateVersionScripts "$versionParamPatternLong" "$version" \
+				"$additionalPatternParamPatternLong" "$additionalPattern" \
+				-d "$script"
+		done
+
+	local -r templateDir="$projectsRootDir/./.github/ISSUE_TEMPLATE"
+	if [[ -d "$templateDir" ]]; then
+		updateVersionIssueTemplates "$versionParamPatternLong" "$version" -d "$templateDir"
+	fi
 }
 
 ${__SOURCED__:+return}
