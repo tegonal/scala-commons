@@ -123,14 +123,14 @@ function parseArgumentsInternal {
 		exit 9
 	fi
 
-	local -r parseArguments_unknownBehaviour=$4
-	local -rn parseArguments_paramArr=$1
-	local -r parseArguments_examples=$2
-	local -r parseArguments_version=$3
+	local -r parseArguments_unknownBehaviour=$1
+	local -rn parseArguments_paramArr=$2
+	local -r parseArguments_examples=$3
+	local -r parseArguments_version=$4
 	shift 4 || die "could not shift by 4"
 
-	if [[ "$parseArguments_unknownBehaviour" =~ ^(ignore|error)$ ]]; then
-		die "unknownBehaviour needs to be one of 'error' or 'ignore' got %" "$parseArguments_unknownBehaviour"
+	if ! [[ "$parseArguments_unknownBehaviour" =~ ^(ignore|error)$ ]]; then
+		die "unknownBehaviour needs to be one of 'error' or 'ignore' got \033[0;36m%s\033[0m" "$parseArguments_unknownBehaviour"
 	fi
 
 	parse_args_exitIfParameterDefinitionIsNotTriple parseArguments_paramArr
@@ -180,7 +180,7 @@ function parseArgumentsInternal {
 			fi
 		done
 
-		if ((parseArguments_expectedName == 0)); then
+		if [[ $parseArguments_unknownBehaviour = 'error' ]] && ((parseArguments_expectedName == 0)); then
 			if [[ $parseArguments_argName =~ ^- ]] && (($# > 1)); then
 				die "unknown argument \033[1;36m%s\033[0m (and value %s)" "$parseArguments_argName" "$2"
 			else
