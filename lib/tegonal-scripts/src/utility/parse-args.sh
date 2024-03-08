@@ -2,11 +2,11 @@
 #
 #    __                          __
 #   / /____ ___ ____  ___  ___ _/ /       This script is provided to you by https://github.com/tegonal/scripts
-#  / __/ -_) _ `/ _ \/ _ \/ _ `/ /        It is licensed under Apache License 2.0
-#  \__/\__/\_, /\___/_//_/\_,_/_/         Please report bugs and contribute back your improvements
-#         /___/
-#                                         Version: v1.3.0
+#  / __/ -_) _ `/ _ \/ _ \/ _ `/ /        Copyright 2022 Tegonal Genossenschaft <info@tegonal.com>
+#  \__/\__/\_, /\___/_//_/\_,_/_/         It is licensed under Apache License 2.0
+#         /___/                           Please report bugs and contribute back your improvements
 #
+#                                         Version: v1.4.0-SNAPSHOT
 #######  Description  #############
 #
 #  Intended to parse command line arguments. Provides a simple way to parse named arguments including a documentation
@@ -103,22 +103,35 @@ function parse_args_exitIfParameterDefinitionIsNotTriple() {
 
 	exitIfArgIsNotArrayWithTuples "$1" 3 "parameter definitions" "first" "parse_args_describeParameterTriple"
 }
+function parseArgumentsIgnoreUnknown {
+	parseArgumentsInternal 'ignore' "$@"
+}
 
 function parseArguments {
-	if (($# < 3)); then
+	parseArgumentsInternal 'error' "$@"
+}
+
+function parseArgumentsInternal {
+	if (($# < 4)); then
 		logError "At least three arguments need to be passed to parseArguments, given \033[0;36m%s\033[0m\nFollowing a description of the parameters:" "$#"
-		echo >&2 '1: params     the name of an array which contains the parameter definitions'
-		echo >&2 '2: examples   a string containing examples (or an empty string)'
-		echo >&2 '3: version    the version which shall be shown if one uses --version'
-		echo >&2 '4... args...  the arguments as such, typically "$@"'
+		echo >&2 '1: unknownBehaviour   one of: error, ignore'
+		echo >&2 '2: params     				the name of an array which contains the parameter definitions'
+		echo >&2 '3: examples   				a string containing examples (or an empty string)'
+		echo >&2 '4: version    			 	the version which shall be shown if one uses --version'
+		echo >&2 '5... args...  				the arguments as such, typically "$@"'
 		printStackTrace
 		exit 9
 	fi
 
+	local -r parseArguments_unknownBehaviour=$4
 	local -rn parseArguments_paramArr=$1
 	local -r parseArguments_examples=$2
 	local -r parseArguments_version=$3
-	shift 3 || die "could not shift by 3"
+	shift 4 || die "could not shift by 4"
+
+	if [[ "$parseArguments_unknownBehaviour" =~ ^(ignore|error)$ ]]; then
+		die "unknownBehaviour needs to be one of 'error' or 'ignore' got %" "$parseArguments_unknownBehaviour"
+	fi
 
 	parse_args_exitIfParameterDefinitionIsNotTriple parseArguments_paramArr
 
@@ -169,10 +182,9 @@ function parseArguments {
 
 		if ((parseArguments_expectedName == 0)); then
 			if [[ $parseArguments_argName =~ ^- ]] && (($# > 1)); then
-				logWarning "ignored argument \033[1;36m%s\033[0m (and its value %s)" "$parseArguments_argName" "$2"
-				shift || die "could not shift by 1"
+				die "unknown argument \033[1;36m%s\033[0m (and value %s)" "$parseArguments_argName" "$2"
 			else
-				logWarning "ignored argument \033[1;36m%s\033[0m" "$parseArguments_argName"
+				die "unknown argument \033[1;36m%s\033[0m" "$parseArguments_argName"
 			fi
 		fi
 		shift || die "could not shift by 1"
