@@ -1,5 +1,3 @@
-import sbt.url
-
 /*
     __                          __
    / /____ ___ ____  ___  ___ _/ /       This file is provided to you by https://github.com/tegonal/scala-commons
@@ -7,8 +5,8 @@ import sbt.url
   \__/\__/\_, /\___/_//_/\_,_/_/         It is licensed under European Union Public License v. 1.2
          /___/                           Please report bugs and contribute back your improvements
 
-                                         Version: v0.1.0-SNAPSHOT
 ##################################*/
+import sbt.url
 
 name := "scala-commons"
 ThisBuild / version := "0.1.0-SNAPSHOT"
