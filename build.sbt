@@ -13,7 +13,7 @@ ThisBuild / version := "0.1.0-SNAPSHOT"
 ThisBuild / organization := "com.tegonal"
 ThisBuild / description := "A library containing utility and helper functions for scala"
 
-ThisBuild / scalaVersion := "3.4.0"
+ThisBuild / scalaVersion := "3.4.1"
 
 lazy val root = (project in file("."))
   .settings(
