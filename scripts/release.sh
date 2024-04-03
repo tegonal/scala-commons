@@ -38,6 +38,12 @@ sourceOnce "$scriptsDir/before-pr.sh"
 sourceOnce "$scriptsDir/prepare-next-dev-cycle.sh"
 
 function release() {
+	if ! java --version | grep 11; then
+		logError "Please switch to Java 11, current version in use:"
+		>&2 java --version
+		exit 1;
+	fi
+
 	source "$dir_of_tegonal_scripts/releasing/common-constants.source.sh" || die "could not source common-constants.source.sh"
 
 	local version
