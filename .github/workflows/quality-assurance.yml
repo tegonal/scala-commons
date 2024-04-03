@@ -11,11 +11,48 @@ name: Quality Assurance
 on: [ push, pull_request ]
 
 jobs:
-  QA_Bash_Scripts:
+  before_pr:
+    name: before-pr.sh
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: install shellcheck v0.9.0
+      - name: install shellcheck
         run: ./lib/tegonal-scripts/src/ci/install-shellcheck.sh
-      - name: run before-pr
+      - name: before-pr.sh
         run: ./scripts/before-pr.sh
+
+  matrix_prep:
+    name: Matrix Preparation Scala
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - id: set-matrix
+        run: |
+          node .github/workflows/matrix.js
+
+  qa_scala:
+    needs: matrix_prep
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+    name: '${{ matrix.name }}'
+    env:
+      JAVA_VERSION: ${{ matrix.java_version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Set up JDK ${{ matrix.java_version }}"
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ matrix.java_distribution }}
+          java-version: ${{ matrix.java_version }}
+          cache: 'sbt'
+
+      - name: "sbt test using JDK ${{ matrix.java_version }}"
+        run: sbt test
+      - name: "sbt publishLocal using JDK ${{ matrix.java_version }}"
+        run: sbt publishLocal
