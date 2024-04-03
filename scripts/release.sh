@@ -61,8 +61,7 @@ function release() {
 		local -r githubUrl="https://github.com/tegonal/scala-commons"
 		replaceTagInPullRequestTemplate "$projectsRootDir/.github/PULL_REQUEST_TEMPLATE.md" "$githubUrl" "$version" || die "could not fill the placeholders in PULL_REQUEST_TEMPLATE.md"
 
-		local -r versionWithoutLeadingV
-		versionWithoutLeadingV="${version:1}"
+		local -r versionWithoutLeadingV="${version:1}"
 
 		perl -0777 -i \
 			-pe "s@(ThisBuild / version := )\"[^\"]+\"@\${1}\"$versionWithoutLeadingV\"@g;" \
