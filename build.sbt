@@ -9,7 +9,7 @@
 import sbt.url
 
 name := "scala-commons"
-ThisBuild / version := "0.2.0-SNAPSHOT"
+ThisBuild / version := "0.2.0"
 ThisBuild / organization := "com.tegonal"
 ThisBuild / description := "A library containing utility and helper functions for scala"
 
