@@ -51,7 +51,6 @@ libraryDependencies += "com.tegonal" %% "scala-commons" % "0.2.0"
 
 # Documentation
 
-In the (near) future:
 Code documentation can be found on github-pages: <https://tegonal.github.io/scala-commons>.
 
 # Contributors and contribute

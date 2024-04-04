@@ -79,6 +79,10 @@ function release() {
 	}
 
 	function release_releaseHook() {
+		rm "$projectDir/target"
+		sbt clean doc
+		mv "$projectDir/target/scala-*/api/*" "$projectDir/docs/"
+
 		echo "Please enter the sonatype user token (input is hidden)"
 		read -r -s SONATYPE_USER
 		echo "Please enter the sonatype access token (input is hidden)"
