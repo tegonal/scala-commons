@@ -6,12 +6,12 @@
 #  \__/\__/\_, /\___/_//_/\_,_/_/         It is licensed under Apache License 2.0
 #         /___/                           Please report bugs and contribute back your improvements
 #
-#                                         Version: v0.2.0
+#                                         Version: v0.3.0-SNAPSHOT
 ###################################
 set -euo pipefail
 shopt -s inherit_errexit
 unset CDPATH
-SCALA_COMMONS_VERSION="v0.2.0"
+SCALA_COMMONS_VERSION="v0.3.0-SNAPSHOT"
 
 if ! [[ -v scriptsDir ]]; then
 	scriptsDir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")" >/dev/null && pwd 2>/dev/null)"
