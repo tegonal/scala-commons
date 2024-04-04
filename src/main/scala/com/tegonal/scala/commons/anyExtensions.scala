@@ -93,6 +93,8 @@ private def emitWarningIfUnableToTypeCheckEntirely[T](using Type[T], Quotes) = {
         s"unsafe cast, cannot type check against an abstract type member (${Type.show[T]}) due to type erasure (can only check against an upper bound if defined)"
       )
   } else if (sym.isClassDef && repr.typeArgs.nonEmpty) {
-    report.warning(s"unsafe cast, cannot type check against a higher-kinded type (${Type.show[T]}) due to type erasure")
+    report.warning(
+      s"unsafe cast, cannot type check against a higher-kinded type (${Type.show[T]}) due to type erasure (can only check against the raw type)"
+    )
   }
 }
