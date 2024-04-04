@@ -44,15 +44,12 @@ extension [T](self: T) {
    * @return The receiver object cast to [[TSub]]
    * @since 0.1.0
    */
-  inline def as[TSub <: T]: T = ${ asImpl[TSub, T]('self) }
+  inline def as[TSub <: T]: TSub = ${ asImpl[TSub, T]('self) }
 }
 
 @nowarn
 private def asImpl[T, U >: T](x: Expr[U])(using Type[T], Type[U], Quotes): Expr[T] = {
   import quotes.reflect.TypeRepr
-
-  val sym = TypeRepr.of[T].typeSymbol
-  val code = Expr(x.show)
 
   emitWarningIfUnableToTypeCheckEntirely[T]
   val isPrimitive = Expr(Type.of[T] match {
