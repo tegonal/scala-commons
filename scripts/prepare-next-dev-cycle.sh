@@ -50,8 +50,7 @@ function prepareNextDevCycle() {
 		local version projectsRootDir additionalPattern
 		parseArguments afterVersionHookParams "" "$SCALA_COMMONS_VERSION" "$@"
 
-		local -r devVersionWithoutLeadingV
-		devVersionWithoutLeadingV="${version:1}-SNAPSHOT"
+		local -r devVersionWithoutLeadingV="${version:1}-SNAPSHOT"
 
 		perl -0777 -i \
 			-pe "s@(ThisBuild / version := )\"[^\"]+\"@\${1}\"$devVersionWithoutLeadingV\"@g;" \
@@ -61,7 +60,7 @@ function prepareNextDevCycle() {
 	# similar as in release.sh, you might need to update it there as well if you change something here
 	local -r additionalPattern="(SCALA_COMMONS_VERSION=['\"])[^'\"]+(['\"])"
 
-	prepareFilesNextDevCycle \
+	prepareNextDevCycleTemplate \
 		--project-dir "$projectDir" \
 		"$@" \
 		--pattern "$additionalPattern" \
