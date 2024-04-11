@@ -25,7 +25,7 @@ ThisBuild / organizationHomepage := Some(url("http://tegonal.com"))
 ThisBuild / homepage := Some(url("https://github.com/tegonal/scala-commons"))
 
 ThisBuild / licenses := List(
-  "European Union Public Licence, Version 1.2" -> new URL("https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12")
+  "Apache License, Version 2.0" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt")
 )
 Compile / unmanagedResourceDirectories += baseDirectory.value
 Compile / unmanagedResources / includeFilter := "LICENSE.txt"
