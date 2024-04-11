@@ -1,6 +1,6 @@
 <!-- for main -->
 
-[![Download](https://img.shields.io/badge/Download-v0.2.0-%23007ec6)](https://github.com/tegonal/scala-commons/releases/tag/v0.2.0)
+[![Download](https://img.shields.io/badge/Download-v0.2.0-%23007ec6)](https://central.sonatype.com/artifact/com.tegonal/scala-commons_3/0.2.0)
 [![Apache 2.0](https://img.shields.io/badge/%E2%9A%96-Apache%202.0-%230b45a6)](http://opensource.org/licenses/Apache2.0 "License")
 [![Quality Assurance](https://github.com/tegonal/scala-commons/actions/workflows/quality-assurance.yml/badge.svg?event=push&branch=main)](https://github.com/tegonal/scala-commons/actions/workflows/quality-assurance.yml?query=branch%3Amain)
 [![Newcomers Welcome](https://img.shields.io/badge/%F0%9F%91%8B-Newcomers%20Welcome-blueviolet)](https://github.com/tegonal/scala-commons/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22 "Ask in discussions for help")
