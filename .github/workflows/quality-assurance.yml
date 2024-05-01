@@ -51,7 +51,9 @@ jobs:
           distribution: ${{ matrix.java_distribution }}
           java-version: ${{ matrix.java_version }}
           cache: 'sbt'
-
+      - name: "install sbt"
+        if: ${{ matrix.os == 'macos-latest'}}
+        run: brew install sbt
       - name: "sbt test using JDK ${{ matrix.java_version }}"
         run: sbt test
       - name: "sbt publishLocal using JDK ${{ matrix.java_version }}"
