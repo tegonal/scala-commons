@@ -44,11 +44,12 @@ function release() {
 		exit 1;
 	fi
 
+	local prepareOnlyParamPatternLong
 	source "$dir_of_tegonal_scripts/releasing/common-constants.source.sh" || die "could not source common-constants.source.sh"
 
-	local version
+	local version prepareOnly
 	# shellcheck disable=SC2034   # they seem unused but are necessary in order that parseArguments doesn't create global readonly vars
-	local branch nextVersion prepareOnly
+	local branch nextVersion
 	# shellcheck disable=SC2034   # is passed by name to parseArguments
 	local -ra params=(
 		version "$versionParamPattern" "$versionParamDocu"
@@ -69,6 +70,9 @@ function release() {
 
 		local -r versionWithoutLeadingV="${version:1}"
 
+		find ./ -name "*.md" | xargs perl -0777 -i \
+			-pe "s@(https://github.com/tegonal/scala-commons/(?:tree|blob)/)$branch@\${1}/v$version@g;"
+
 		perl -0777 -i \
 			-pe "s@(ThisBuild / version := )\"[^\"]+\"@\${1}\"$versionWithoutLeadingV\"@g;" \
 			"$projectsRootDir/build.sbt"
@@ -88,6 +92,14 @@ function release() {
 		echo "Please enter the sonatype access token (input is hidden)"
 		read -r -s SONATYPE_PW
 		SONATYPE_PW="$SONATYPE_PW" SONATYPE_USER="$SONATYPE_USER" sbt publishSigned
+
+
+		if [[ $prepareOnly != true ]]; then
+			logInfo "artifacts were uploaded to sonatype. Log into https://oss.sonatype.org/#stagingRepositories and check if the staged repo looks good, close it and release once checks have passed. Press ENTER to continue"
+			read -r _dummy
+		else
+			logInfo "artifact were uploaded to sonatype but as \`%s true\` we don't do anything in addition" "$prepareOnlyParamPatternLong"
+		fi
 	}
 
 	# similar as in prepare-next-dev-cycle.sh, you might need to update it there as well if you change something here
