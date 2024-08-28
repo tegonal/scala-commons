@@ -9,7 +9,7 @@
 <!-- for release -->
 <!--
 [![Download](https://img.shields.io/badge/Download-v0.2.0-%23007ec6)](https://central.sonatype.com/artifact/com.tegonal/scala-commons_3/0.2.0)
-[![EUPL 1.2](https://img.shields.io/badge/%E2%9A%96-EUPL%2201.2-%230b45a6)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12 "License")
+[![Apache 2.0](https://img.shields.io/badge/%E2%9A%96-Apache%202.0-%230b45a6)](http://opensource.org/licenses/Apache2.0 "License")
 [![Newcomers Welcome](https://img.shields.io/badge/%F0%9F%91%8B-Newcomers%20Welcome-blueviolet)](https://github.com/tegonal/scala-commons/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22 "Ask in discussions for help")
 -->
 <!-- for release end -->
