@@ -17,7 +17,7 @@ ThisBuild / scalaVersion := "3.6.3"
 
 lazy val root = (project in file("."))
   .settings(
-    libraryDependencies += "org.scalameta" %% "munit" % "1.0.3" % Test
+    libraryDependencies += "org.scalameta" %% "munit" % "1.1.0" % Test
   )
 
 ThisBuild / organizationName := "Tegonal Genossenschaft"
