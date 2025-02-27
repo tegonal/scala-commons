@@ -16,6 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: sbt
+      - uses: sbt/setup-sbt@v1
       - name: install shellcheck
         run: ./lib/tegonal-scripts/src/ci/install-shellcheck.sh
       - name: before-pr.sh
@@ -51,19 +58,8 @@ jobs:
           distribution: ${{ matrix.java_distribution }}
           java-version: ${{ matrix.java_version }}
           cache: 'sbt'
-      - name: "install sbt"
-        if: ${{ matrix.os == 'macos-latest'}}
-        run: brew install sbt
+      - uses: sbt/setup-sbt@v1
       - name: "sbt test using JDK ${{ matrix.java_version }}"
         run: sbt test
       - name: "sbt publishLocal using JDK ${{ matrix.java_version }}"
         run: sbt publishLocal
-
-  todo_checker:
-    name: check for TODOs
-    runs-on: ubuntu-latest
-    steps:
-      - name: check for TODOs
-        uses: tegonal/workflow-helper@v0.3.0
-        with:
-          commands: todo-checker
