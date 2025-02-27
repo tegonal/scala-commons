@@ -33,6 +33,25 @@ function gt_pullHook_tegonal_gh_commons_before() {
 	parseFnArgs params "$@"
 
 	replaceTegonalGhCommonsPlaceholders_Tegonal "$source" "scala-commons" "$SCALA_COMMONS_LATEST_VERSION" "scala-commons"
+
+	if [[ $source == */cleanup.yml ]]; then
+		local -r yaml=$(
+				# shellcheck disable=SC2312		# cat shouldn't fail for a constant string hence fine to ignore exit code
+				cat <<-EOM
+					      # start inserted via pull-hook.sh - modify there
+					      - name: Setup JDK 17
+					        uses: actions/setup-java@v4
+					        with:
+					          distribution: temurin
+					          java-version: 17
+					          cache: sbt
+					      - uses: sbt/setup-sbt@v1
+					      # end inserted via pull-hook.sh - modify there
+				EOM
+		)
+
+		perl -0777 -i -pe "s|\n(\s+ - name: Cleanup Sources)|\n$yaml\n\${1}|g" "$source"
+	fi
 }
 
 function gt_pullHook_tegonal_gh_commons_after() {
