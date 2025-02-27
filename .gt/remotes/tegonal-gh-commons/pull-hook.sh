@@ -49,8 +49,7 @@ function gt_pullHook_tegonal_gh_commons_before() {
 					      # end inserted via pull-hook.sh - modify there
 				EOM
 		)
-
-		perl -0777 -i -pe "s|\n(\s+ - name: Cleanup Sources)|\n$yaml\n\${1}|g" "$source"
+		YAML="$yaml" perl -0777 -i -pe "s|\n(\s+ - name: Cleanup Sources)|\n\$ENV{YAML}\n\${1}|g" "$source"
 	fi
 }
 

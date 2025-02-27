@@ -21,12 +21,12 @@ jobs:
       - uses: actions/checkout@v4
       # start inserted via pull-hook.sh - modify there
       - name: Setup JDK 17
-        uses: actions/setup-java
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
           cache: sbt
-      - uses: sbt/setup-sbt
+      - uses: sbt/setup-sbt@v1
       # end inserted via pull-hook.sh - modify there
       - name: Cleanup Sources
         run: ./scripts/cleanup-on-push-to-main.sh
