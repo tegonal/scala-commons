@@ -60,7 +60,7 @@ private def asImpl[T, U >: T](x: Expr[U])(using Type[T], Type[U], Quotes): Expr[
   '{
     $x match {
       case t: T => t
-      case a =>
+      case a    =>
         if (a == null) {
           if ($isPrimitive) {
             throw ClassCastException(
