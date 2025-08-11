@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       # start inserted via pull-hook.sh - modify there
       - name: Setup JDK 17
         uses: actions/setup-java@v4
