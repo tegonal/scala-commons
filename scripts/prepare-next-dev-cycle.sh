@@ -18,11 +18,6 @@ if ! [[ -v scriptsDir ]]; then
 	readonly scriptsDir
 fi
 
-if ! [[ -v projectDir ]]; then
-	projectDir="$(realpath "$scriptsDir/../")"
-	readonly projectDir
-fi
-
 if ! [[ -v dir_of_tegonal_scripts ]]; then
 	dir_of_tegonal_scripts="$scriptsDir/../lib/tegonal-scripts/src"
 	source "$dir_of_tegonal_scripts/setup.sh" "$dir_of_tegonal_scripts"
@@ -61,7 +56,7 @@ function prepareNextDevCycle() {
 	local -r additionalPattern="(SCALA_COMMONS_VERSION=['\"])[^'\"]+(['\"])"
 
 	prepareNextDevCycleTemplate \
-		--project-dir "$projectDir" \
+		--project-dir "$projectsRootDir" \
 		"$@" \
 		--pattern "$additionalPattern" \
 		--after-version-update-hook prepare_next_afterVersionHook
