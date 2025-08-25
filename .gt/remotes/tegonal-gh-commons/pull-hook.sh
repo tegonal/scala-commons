@@ -40,7 +40,7 @@ function gt_pullHook_tegonal_gh_commons_before() {
 				cat <<-EOM
 					      # start inserted via pull-hook.sh - modify there
 					      - name: Setup JDK 17
-					        uses: actions/setup-java@v4
+					        uses: actions/setup-java@v5
 					        with:
 					          distribution: temurin
 					          java-version: 17
