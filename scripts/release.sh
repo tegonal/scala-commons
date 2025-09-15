@@ -71,7 +71,7 @@ function release() {
 		local -r versionWithoutLeadingV="${version:1}"
 
 		find ./ -name "*.md" | xargs perl -0777 -i \
-			-pe "s@(https://github.com/tegonal/scala-commons/(?:tree|blob)/)$branch@\${1}/v$version@g;"
+			-pe "s@(https://github.com/tegonal/scala-commons/(?:tree|blob)/)$branch@\${1}$version@g;"
 
 		perl -0777 -i \
 			-pe "s@(ThisBuild / version := )\"[^\"]+\"@\${1}\"$versionWithoutLeadingV\"@g;" \
