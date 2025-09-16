@@ -34,7 +34,7 @@ version: [README of v0.2.0](https://github.com/tegonal/scala-commons/tree/v0.2.0
 
 ---
 
-**Table of Content**
+**Table of Contents**
 
 - [Installation](#installation)
 - [Documentation](#documentation) 
