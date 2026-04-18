@@ -1,6 +1,5 @@
 #@ Version: 1.2.0
 tag	file	relativeTarget	tagFilter	hasPlaceholder	sha512
-v4.11.0	src/setup.sh	../lib/tegonal-scripts/src/setup.sh	.*	false	259c46ea62afe5284a6e39fbd77343b32f98579584506d519c47fedee471adcaf91addaab10cc2804de2a4bfe119a6682a0d7952a456e4a617b2727ba541e8b0
 v4.11.0	src/utility/io.sh	../lib/tegonal-scripts/src/utility/io.sh	.*	false	feb7b71939f4278d999fd0367489724644e89291f13a4d66e75350e19b18cafafcd2d64027ee46b125ea34e9deae1a0d1261899bca37d1134c7c1028417c4196
 v4.11.0	src/utility/array-utils.sh	../lib/tegonal-scripts/src/utility/array-utils.sh	.*	false	638528571b35f2a5d545a5b722a09be65ebd79dd8195adf30e31279167c19e4d8f8cbdda3d4fb388a3df3f00e2e5143b01146d5b43d64b9dc351807946317470
 v4.11.0	src/utility/parse-utils.sh	../lib/tegonal-scripts/src/utility/parse-utils.sh	.*	false	1bca82bd4e26b115f6fc97e3875829fa7dacb2e9600ac1454cab89a8c54dc0a0f7d4cfc9cf8ad73c61a758a41830f125c79341b9b4cca454be62102ba8092945
@@ -35,3 +34,4 @@ v4.11.0	src/releasing/common-constants.source.sh	../lib/tegonal-scripts/src/rele
 v4.11.0	src/releasing/prepare-next-dev-cycle-template.sh	../lib/tegonal-scripts/src/releasing/prepare-next-dev-cycle-template.sh	.*	false	729ec5ea12b93225a06c5ba09e5ae4e4a61ff5ccd72d716c02b7d5115a7de12cd5189bf49d84dab4bf6f970361dedb37e65a9a3c0ed4ec0bcd1593c61de82cd0
 v4.11.0	src/releasing/release-files.sh	../lib/tegonal-scripts/src/releasing/release-files.sh	.*	false	65ed9c3bfd92e3250db41090a2bee9861d678750c5d215d6c73932e0ed92cb79300e242eeb53bc6fd81782358f7cc6f4d5b46c59271c8ba34950ceab315da8b2
 v4.11.0	src/utility/string-utils.sh	../lib/tegonal-scripts/src/utility/string-utils.sh	.*	false	e6bad5ae8aa26188d1f09815d5336b85e4dfdb4e92f8869d531d8f095410293b0aa67bdc117b45f23bc23a6804d79e83392cb6d0735ecbd97d2d478e60bab473
+v4.11.0	src/setup_tegonal_scripts.sh	../lib/tegonal-scripts/src/setup_tegonal_scripts.sh	.*	false	4802417b353cad2de4c2ff52cae73bab06ab294d6af4e3d85ae08e2d6bf63a7ead5eb68c2404238ef667064e8ea2fe319b437c693f7cceb3ba29ab9f1718ab7a
